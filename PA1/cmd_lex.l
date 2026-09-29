@@ -50,13 +50,12 @@
 
 //NOT COMPLETE YET WILL COME BACK TO THIS
 
-//look for this in parser
-"-"     { return MINUS; } //FLOATS optional negative sign
+//[0-9]+  { return INT; } //can use yylint or somethign like that
+[1-9][0-9]* { yylval.num = atoi(yytext); return INT; }
 
-[0-9]+  { return INT; } //can use yylint or somethign like that
+-?(0\.[0-9]|[1-9][0-9]*\.[0-9]+) { yyval.flt = atof(yytext); return FLOAT; }
 
-[0-9]+.[0-9]+   { return FLOAT; } //can slost use yyfloat but i forgot how
-
+//return as string maybe?
 [a-zA-Z][a-zA-Z0-9]+    { return SYM; }
 
 //given string token creates string return something
