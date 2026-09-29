@@ -48,18 +48,14 @@
 "{"     { return LBRACE; }
 "}"     { return RBRACE; }
 
-//NOT COMPLETE YET WILL COME BACK TO THIS
-
-//[0-9]+  { return INT; } //can use yylint or somethign like that
-[1-9][0-9]* { yylval.num = atoi(yytext); return INT; }
+//returns int with value
+[1-9][0-9]*     { yylval.num = atoi(yytext); return INT; }
 
 -?(0\.[0-9]|[1-9][0-9]*\.[0-9]+) { yyval.flt = atof(yytext); return FLOAT; }
 
-//return as string maybe?
-[a-zA-Z][a-zA-Z0-9]+    { return SYM; }
+[a-zA-Z][a-zA-Z0-9]+    { yylval->str_temp= strdup(yytext); return SYM; }
 
-//given string token creates string return something
-\"([^\\\"]|\\.)*\" { yylval->str_temp = strdup(yytext); return STRING} //WIP
+\"([^\\\"]|\\.)*\" { yylval->str_temp = strdup(yytext); return STRING}
 
 [ \n\r\f\t]*  { continue; } //this is for white spaces
 
