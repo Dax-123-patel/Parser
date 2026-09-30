@@ -33,9 +33,8 @@
 %% //working in here
 //use the regex stuff to return a token like "{" return LBRACE
 
-//functions start with a $name
-"$[a-zA-Z]+"     { return LABEL; }
-
+//functions start with a $ and is parsed with SYM
+"$"     { return LABEL; }
 "%"     { return VARREF; }
 "/"     { return OPSTART; }
 "="     { return OPTPAIR; }
