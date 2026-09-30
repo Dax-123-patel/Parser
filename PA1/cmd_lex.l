@@ -34,10 +34,7 @@
 //use the regex stuff to return a token like "{" return LBRACE
 
 //functions start with a $name
-"$"     { return LABEL; }
-
-//the name of variables or functions
-[a-zA-Z]+   { return NAME; } //one or more letters a-Z
+"$[a-zA-Z]+"     { return LABEL; }
 
 "%"     { return VARREF; }
 "/"     { return OPSTART; }
