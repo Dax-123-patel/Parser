@@ -1,15 +1,34 @@
 #ifndef CMD_DATA_H
 #define CMD_DATA_H
 
-//use tagged union to make tree just holds data
+
+// THe node tells evaluate () what to print
+typedef enum{
+     PROGRAM,
+    COMMAND,
+    FUNCTION,
+    SYMBOL,
+    INTEGER,
+    FLOAT,
+    STRING,
+    VARIABLE,
+    FLAG,
+    LONGOPT
+} CLObjType;
 
 typedef struct CLObj
 {
-    int name;
-    float fl;
-    char* string;
+    CLObjType type;
+    char *name;
+    int ival;
+    double fval;
+
+    struct CLObj *args; // First argument/parameter
+    struct CLObj *body; // First item in a function's body
+    struct CLObj *next; // NExt item in the same list
 } CLObj;
 
-void evaluate(CLObj *); //use the diff types ints 
-//works with parse
+CLObj *new_obj(CLObjType type, char *name); // Create a node for the parser
+
+void evaluate(CLObj *);
 #endif

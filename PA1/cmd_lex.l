@@ -1,10 +1,13 @@
-%{ //this FIRST 
+%{
+//this FIRST 
 //this code here in.l will break the input down into tokens
 //parser then the.y will take these tokens in turn them into non-tokens/variables to see if its valid
 
 #include "cmd_data.h"
 #include "cmd_parse.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /* The following definition ensures that helpful syntax errors are printed: do not  */
 #define YY_USER_ACTION \
@@ -30,13 +33,12 @@
 %option reentrant noyywrap
 %option bison-bridge bison-locations
 
-%% //working in here
-//use the regex stuff to return a token like "{" return LBRACE
 
-//functions start with a $ and is parsed with SYM
+%%
+
 "$"     { return LABEL; }
 "%"     { return VARREF; }
-"/"     { return OPSTART; }
+"/"     { return OPTSTART; }
 "="     { return OPTPAIR; }
 "."     { return CMDSEP; }
 "("     { return LPAR; }
@@ -44,14 +46,13 @@
 "{"     { return LBRACE; }
 "}"     { return RBRACE; }
 
-//returns int with value
-[1-9][0-9]*     { yylval.num = atoi(yytext); return INT; }
+[0-9]+ { yylval->int_temp = atoi(yytext); return INT; }
 
--?(0\.[0-9]|[1-9][0-9]*\.[0-9]+) { yyval.flt = atof(yytext); return FLOAT; }
+-?[0-9]+\.[0-9]+ { yylval->flt_temp = atof(yytext); return FLT; }
 
 [a-zA-Z][a-zA-Z0-9]+    { yylval->str_temp= strdup(yytext); return SYM; }
 
-\"([^\\\"]|\\.)*\" { yylval->str_temp = strdup(yytext); return STRING}
+\"([^\\\"]|\\.)*\" { yylval->str_temp = strdup(yytext); return STR;}
 
 [ \n\r\f\t]*  { continue; } //this is for white spaces
 
